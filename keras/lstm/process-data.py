@@ -1,9 +1,9 @@
 import pandas as pd
 
 if __name__ == '__main__':
-    data = pd.read_csv('Nafta.csv')
+    data = pd.read_csv('datasets/Nafta.csv')
 
-    with open('sequential_data.csv', 'w+') as f:
+    with open('datasets/sequential_data.csv', 'w+') as f:
         f.write('v1,v2,v3,v4,v5,v6,v7\n')
         for i, k in enumerate(data['price'][:-7]):
             row = []

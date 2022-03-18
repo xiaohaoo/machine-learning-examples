@@ -3,7 +3,7 @@ import numpy as np
 from sklearn import preprocessing
 from tensorflow.python.keras import layers, models, callbacks
 
-data = np.loadtxt('sequential_data.csv', skiprows=1, delimiter=',')
+data = np.loadtxt('datasets/sequential_data.csv', skiprows=1, delimiter=',')
 data[np.isnan(data)] = np.mean(data[~np.isnan(data)])
 min_max_scaler = preprocessing.MinMaxScaler(feature_range=(0, 1))
 data = min_max_scaler.fit_transform(data)
