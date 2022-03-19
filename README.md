@@ -7,5 +7,7 @@
 [LSTM](keras/lstm) - 使用keras构建LSTM回归模型预测石油价格。
 
 | ![](assets/keras/lstm/model_loss_accuracy.png) | ![](assets/keras/lstm/model_predict.png) |
-|  ---- |  ---- |
+| ---- |---- |
+| 训练情况 | 数据拟合情况 |
+
 
