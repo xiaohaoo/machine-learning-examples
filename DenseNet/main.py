@@ -23,8 +23,8 @@ def get_dataset():
         torchvision.transforms.ToTensor(),
         torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
-    train_dataset = torchvision.datasets.ImageFolder(root=os.path.join(os.getcwd(), 'dataset'), transform=transform, )
-    test_dataset = torchvision.datasets.ImageFolder(root=os.path.join(os.getcwd(), 'dataset'), transform=torchvision.transforms.Compose([
+    train_dataset = torchvision.datasets.ImageFolder(root=os.path.join(os.getcwd(), 'breast-simple'), transform=transform, )
+    test_dataset = torchvision.datasets.ImageFolder(root=os.path.join(os.getcwd(), 'breast-simple'), transform=torchvision.transforms.Compose([
         torchvision.transforms.Resize((224, 224)),
         torchvision.transforms.ToTensor(),
         torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
