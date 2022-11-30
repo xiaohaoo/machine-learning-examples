@@ -51,7 +51,7 @@ def train():
             optimizer.step()
             summary_writer.add_scalar('loss', loss.item(), epoch)
             if batch % 10 == 1:
-                summary_writer.add_image("Epoch: {}".format(epoch), x_train)
+                # summary_writer.add_image("Epoch: {}".format(epoch), x_train)
                 print("Epoch [{}/{}], Step [{}/{}] Loss: {:.4f}".format(epoch + 1, 50, batch + 1, len(train_loader), loss.item()))
     torch.save(resnet_modal.state_dict(), 'dense.pkl')
 
