@@ -8,12 +8,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def get_dense_modal():
-    model = torchvision.models.densenet121(
-        num_classes=1, pretrained=False).to(device)
-    model.classifier = torch.nn.Sequential(
-        model.classifier, torch.nn.Sigmoid())
-    pretrained_dict = {k: v for k, v in torch.load(
-        "densenet121-a639ec97.pth").items() if k in model.state_dict() and 'classifier' not in k}
+    model = torchvision.models.densenet121(num_classes=1, pretrained=False).to(device)
+    model.classifier = torch.nn.Sequential(model.classifier, torch.nn.Sigmoid())
+    pretrained_dict = {k: v for k, v in torch.load("densenet121-a639ec97.pth").items() if k in model.state_dict() and 'classifier' not in k}
     model.state_dict().update(pretrained_dict)
     model.load_state_dict(model.state_dict())
     return model
@@ -35,10 +32,8 @@ def get_dataset():
         torchvision.transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ]))
-    train_loader = torch.utils.data.DataLoader(
-        dataset=train_dataset, batch_size=32, shuffle=True)
-    test_loader = torch.utils.data.DataLoader(
-        dataset=test_dataset, batch_size=32, shuffle=False)
+    train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=32, shuffle=True)
+    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=32, shuffle=False)
     return train_loader, test_loader
 
 
@@ -55,20 +50,22 @@ def train():
     cross_entropy_loss = torch.nn.BCELoss()
     resnet_modal.train()
     summary_writer = tensorboard.SummaryWriter()
+    mean = torch.as_tensor([0.485, 0.456, 0.406]).view(-1, 1, 1)
+    std = torch.as_tensor([0.229, 0.224, 0.225]).view(-1, 1, 1)
     for epoch in range(50):
-        for batch, (x_train, y_train) in enumerate(train_loader):
-            x_train, y_train = x_train.to(device), y_train.to(device)
+        for batch, (images, labels) in enumerate(train_loader):
+            images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()
-            output = resnet_modal(x_train)
-            loss = cross_entropy_loss(
-                output, torch.unsqueeze(y_train / 1.0, 1))
+            output = resnet_modal(images)
+            loss = cross_entropy_loss(output, torch.unsqueeze(labels / 1.0, 1))
             loss.backward()
             optimizer.step()
             summary_writer.add_scalar('loss', loss.item(), epoch)
-            if batch % 10 == 1:
-                # summary_writer.add_image("Epoch: {}".format(epoch), x_train)
-                print("Epoch [{}/{}], Step [{}/{}] Loss: {:.4f}".format(epoch +
-                      1, 50, batch + 1, len(train_loader), loss.item()))
+            if True:
+                images = images * std + mean
+                images = torch.round(images * 255)
+                summary_writer.add_images("Epoch: {}".format(epoch), images)
+            print("Epoch [{}/{}], Step [{}/{}] Loss: {:.4f}".format(epoch + 1, 50, batch + 1, len(train_loader), loss.item()))
     torch.save(resnet_modal.state_dict(), 'dense.pkl')
 
 
@@ -88,12 +85,9 @@ def eval():
         label = labels.to(device)
         label = torch.unsqueeze(label, 1)
         outputs = resnet_modal(image)
-        print(outputs)
-        print(label)
-        print('--'*10)
         predicted = torch.where(outputs.data > 0.5, 1, 0)
-        # print("准确率:", (predicted == label).sum().item() / label.size()[0])
+        print("准确率:", (predicted == label).sum().item() / label.size()[0])
 
 
 if __name__ == '__main__':
-    eval()
+    train()
