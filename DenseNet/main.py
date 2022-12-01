@@ -61,7 +61,7 @@ def train():
             loss.backward()
             optimizer.step()
             summary_writer.add_scalar('loss', loss.item(), epoch)
-            if True:
+            if batch % 10 == 1:
                 images = images * std + mean
                 images = torch.round(images * 255)
                 summary_writer.add_images("Epoch: {}".format(epoch), images)
