@@ -48,6 +48,7 @@ def train():
             y = y * std + mean
             x = torch.round(x * 255)
             y = torch.round(y * 255)
+            summary_writer.add_scalar('loss', loss.item(), epoch)
             summary_writer.add_images('Epoch {}'.format(epoch), torch.cat((x, y), 0))
     torch.save(dn_cnn.state_dict(), 'dn_cnn_net.pth')
 
