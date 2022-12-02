@@ -8,12 +8,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def get_dense_modal():
-    model = torchvision.models.densenet121(
-        num_classes=1, pretrained=False).to(device)
-    model.classifier = torch.nn.Sequential(
-        model.classifier, torch.nn.Sigmoid())
-    pretrained_dict = {k: v for k, v in torch.load(
-        "densenet121-a639ec97.pth").items() if k in model.state_dict() and 'classifier' not in k}
+    model = torchvision.models.densenet121(num_classes=1, pretrained=False).to(device)
+    model.classifier = torch.nn.Sequential(model.classifier, torch.nn.Sigmoid())
+    pretrained_dict = {k: v for k, v in torch.load("densenet121-a639ec97.pth").items() if k in model.state_dict() and 'classifier' not in k}
     model.state_dict().update(pretrained_dict)
     model.load_state_dict(model.state_dict())
     return model
