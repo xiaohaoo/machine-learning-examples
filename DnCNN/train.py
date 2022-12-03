@@ -31,8 +31,8 @@ def train():
     lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30, 60, 90], gamma=0.2)  # learning rates
     summary_writer = tensorboard.SummaryWriter()
     dn_cnn.train()
-    mean = torch.as_tensor([0.485, 0.456, 0.406]).view(-1, 1, 1)
-    std = torch.as_tensor([0.229, 0.224, 0.225]).view(-1, 1, 1)
+    mean = torch.as_tensor([0.485, 0.456, 0.406]).view(-1, 1, 1).to(device)
+    std = torch.as_tensor([0.229, 0.224, 0.225]).view(-1, 1, 1).to(device)
     for epoch in range(50):
         for i, data in enumerate(train_loader):
             x, y = data[0].to(device), data[1].to(device)
