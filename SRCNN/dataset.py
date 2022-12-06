@@ -1,6 +1,7 @@
 import glob
 import os
 
+import numpy as np
 from PIL import ImageFilter, Image
 from matplotlib import pyplot as plt
 from torch.utils.data import Dataset
@@ -24,3 +25,9 @@ class SRCNNDataset(Dataset):
 
     def __len__(self):
         return len(self.paths)
+
+
+if __name__ == '__main__':
+    img, _, _ = Image.open('/Users/xiaohao/Documents/Python/SRCNN/BSDS300/train/15004.jpg').convert('YCbCr').split()
+    plt.imshow(np.array(img) / 255)
+    plt.show()

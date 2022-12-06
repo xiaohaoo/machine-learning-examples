@@ -15,7 +15,7 @@ def train():
     criterion = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     transform = torchvision.transforms.Compose([
-        torchvision.transforms.CenterCrop(150),
+        torchvision.transforms.CenterCrop(300),
         torchvision.transforms.ToTensor(),
     ])
     train_dataset = SRCNNDataset(transform=transform)
