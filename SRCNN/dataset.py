@@ -17,7 +17,7 @@ class SRCNNDataset(Dataset):
         img, _, _ = Image.open(path).convert('YCbCr').split()
         x = img.filter(ImageFilter.GaussianBlur(2))
         x = self.transform(x)
-        return x, self.transform(img)
+        return x / 255, self.transform(img) / 255
 
     def __len__(self):
         return len(self.paths)

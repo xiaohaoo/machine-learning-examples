@@ -17,7 +17,6 @@ def train():
     transform = torchvision.transforms.Compose([
         torchvision.transforms.CenterCrop(150),
         torchvision.transforms.ToTensor(),
-        torchvision.transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
     train_dataset = SRCNNDataset(transform=transform)
     train_dataloader = DataLoader(dataset=train_dataset, batch_size=16, shuffle=True)
