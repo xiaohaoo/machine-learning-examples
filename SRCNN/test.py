@@ -33,9 +33,9 @@ def test():
                 batch = x.size()[0]
                 for i in batch:
                     plt.figure()
-                    plt.subplot(batch, 2, i * 2)
-                    plt.imshow(x[i].cpu())
                     plt.subplot(batch, 2, i * 2 + 1)
+                    plt.imshow(x[i].cpu())
+                    plt.subplot(batch, 2, i * 2 + 2)
                     plt.imshow(output[i].cpu())
                     plt.show()
 
