@@ -7,10 +7,13 @@ from torch.utils.data import Dataset
 
 
 class SRCNNDataset(Dataset):
-    def __init__(self, transform):
+    def __init__(self, transform, train=True):
         super(SRCNNDataset, self).__init__()
         self.transform = transform
-        self.paths = glob.glob(os.path.join('BSDS300/train', '*.jpg'))
+        if train:
+            self.paths = glob.glob(os.path.join('BSDS300/train', '*.jpg'))
+        else:
+            self.paths = glob.glob(os.path.join('BSDS300/test', '*.jpg'))
 
     def __getitem__(self, index):
         path = self.paths[index]
