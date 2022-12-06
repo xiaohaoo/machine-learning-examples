@@ -32,9 +32,9 @@ def test():
                 output = model(x)
                 plt.figure()
                 plt.subplot(121)
-                plt.imshow(x)
+                plt.imshow(x.cpu())
                 plt.subplot(122)
-                plt.imshow(output)
+                plt.imshow(output.cpu())
                 plt.show()
 
 
