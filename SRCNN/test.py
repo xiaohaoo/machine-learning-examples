@@ -30,12 +30,14 @@ def test():
                 x = x.to(device)
                 labels = labels.to(device)
                 output = model(x)
-                plt.figure()
-                plt.subplot(121)
-                plt.imshow(x.cpu())
-                plt.subplot(122)
-                plt.imshow(output.cpu())
-                plt.show()
+                batch = x.size()[0]
+                for i in batch:
+                    plt.figure()
+                    plt.subplot(batch, 2, i * 2)
+                    plt.imshow(x[i].cpu())
+                    plt.subplot(batch, 2, i * 2 + 1)
+                    plt.imshow(output[i].cpu())
+                    plt.show()
 
 
 if __name__ == '__main__':
